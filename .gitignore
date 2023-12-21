@@ -1,0 +1,9 @@
+# yaml and backup
+*.yaml
+*.yaml.bak
+
+# python
+__pycache__/
+
+# vscode
+.vscode/
