@@ -2,6 +2,16 @@
 
 ![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png)
 
+- [Clash配置文件自动设置](#clash配置文件自动设置)
+  - [Install requirements](#install-requirements)
+  - [Usage](#usage)
+
+## Install requirements
+
+```bash
+pip install requirements.txt
+```
+
 ## Usage
 
 To simply group some shit:
