@@ -18,6 +18,7 @@ def main():
     # read from YAML file
     with open(input_file, 'r') as file:
         data = yaml.safe_load(file)
+        file.close()
 
     # default proxy group
     default_proxy_group = {
@@ -71,5 +72,6 @@ def main():
     # 将修改后的数据写回文件
     with open(output_file, 'w') as file:
         yaml.dump(data, file)
+        file.close()
 
 main()
