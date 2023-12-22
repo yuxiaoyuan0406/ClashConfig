@@ -1,24 +1,57 @@
 import yaml
 import argparse
 
-  
+def get_config():
+    import os
+    import requests
+    proxy = {
+        "http": None,
+        "https": None,
+    }
+    url = os.environ.get('CLASH_URL')
+    if url is None:
+        print("Env para `CLASH_URL` not set")
+        return {}
+
+    # download file without proxy
+    session = requests.Session()
+    session.trust_env = False
+    response = session.get(url)
+    
+    if response.status_code == 200:
+        config = yaml.safe_load(response.content)
+        if type(config) is dict:
+            return config
+    return {}
+
 
 def main():
     parser = argparse.ArgumentParser(description="Set clash config filr.")
 
     parser.add_argument('--input', help="Directory to input file.", default='config.yaml')
     parser.add_argument('--output', help="Directory to output file.", default="output.yaml")
+    parser.add_argument('--update', help='Update from env.CLASH_URL', action='store_true')
     # parser.add_argument('--verbose', help="增加输出的详细程度", action='store_true')
 
     args = parser.parse_args()
 
     input_file = args.input
     output_file = args.output
-
-    # read from YAML file
-    with open(input_file, 'r') as file:
-        data = yaml.safe_load(file)
-        file.close()
+    do_update = args.update
+    
+    if do_update:
+        data = get_config()
+        if data:
+            pass
+        else:
+            print('Update fail, check internet connection or config link.')
+            raise ConnectionError(f"Connection error or invalid link.")
+            # return
+    else:
+        # read from YAML file
+        with open(input_file, 'r') as file:
+            data = yaml.safe_load(file)
+            file.close()
 
     # default proxy group
     default_proxy_group = {
