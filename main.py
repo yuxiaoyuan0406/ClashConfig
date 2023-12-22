@@ -34,7 +34,7 @@ def main():
     proxy_names = [proxy['name'] for proxy in data['proxies']]
     US_proxy_names = [name for name in proxy_names if 'UnitedStates' in name]
     
-    US_proxy_group = default_proxy_group
+    US_proxy_group = dict(default_proxy_group)
     US_group_name = 'US-Auto'
     US_proxy_group['name'] = US_group_name
     US_proxy_group['proxies'] = US_proxy_names
@@ -49,7 +49,7 @@ def main():
         i = proxy_groups_names.index('Proxy')
         data['proxy-groups'][i]['proxies'].append(US_group_name)
     except ValueError:
-        select_proxy_group = default_proxy_group
+        select_proxy_group = dict(default_proxy_group)
         select_proxy_group['name'] = 'Proxy'
         select_proxy_group['type'] = 'select'
         select_proxy_group.pop('url', None)
