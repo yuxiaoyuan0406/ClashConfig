@@ -4,7 +4,7 @@ import argparse
   
 
 def main():
-    parser = argparse.ArgumentParser(description="这是一个示例脚本，用于解释如何使用argparse。")
+    parser = argparse.ArgumentParser(description="Set clash config filr.")
 
     parser.add_argument('--input', help="Directory to input file.", default='config.yaml')
     parser.add_argument('--output', help="Directory to output file.", default="output.yaml")
