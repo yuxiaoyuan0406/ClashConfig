@@ -80,7 +80,7 @@ def main():
 
     try:
         i = proxy_groups_names.index('Proxy')
-        data['proxy-groups'][i]['proxies'].append(US_group_name)
+        data['proxy-groups'][i]['proxies'].insert(0, US_group_name)
     except ValueError:
         select_proxy_group = dict(default_proxy_group)
         select_proxy_group['name'] = 'Proxy'
@@ -88,14 +88,14 @@ def main():
         select_proxy_group.pop('url', None)
         select_proxy_group.pop('interval', None)
         select_proxy_group['proxies'] = proxy_groups_names
-        select_proxy_group['proxies'].append(US_group_name)
+        select_proxy_group['proxies'].insert(0, US_group_name)
         data['proxy-groups'].append(select_proxy_group)
 
     try:
         i = proxy_groups_names.index(US_group_name)
         data['proxy-groups'][i] = US_proxy_group
     except ValueError:
-        data['proxy-groups'].append(US_proxy_group)
+        data['proxy-groups'].insert(0, US_proxy_group)
 
     ## change allow lan
     data['allow-lan'] = True
