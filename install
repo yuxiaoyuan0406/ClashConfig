@@ -6,3 +6,7 @@ mkdir -p $install_dir
 cp main.py $install_dir
 cp server.py $install_dir
 cp start.sh $install_dir
+cp clash-config.service /usr/lib/systemd/system
+
+systemctl daemon-reload
+systemctl enable clash-config
