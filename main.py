@@ -1,17 +1,17 @@
 import yaml
 import argparse
 
-def get_config():
-    import os
+def get_config(url):
+    # import os
     import requests
     proxy = {
         "http": None,
         "https": None,
     }
-    url = os.environ.get('CLASH_URL')
-    if url is None:
-        print("Env para `CLASH_URL` not set")
-        return {}
+    # url = os.environ.get('CLASH_URL')
+    # if url is None:
+    #     print("Env para `CLASH_URL` not set")
+    #     return {}
 
     # download file without proxy
     session = requests.Session()
@@ -24,20 +24,21 @@ def get_config():
             return config
     return {}
 
-def edit_config(input_file, output_file, do_update=True):
-    if do_update:
-        data = get_config()
-        if data:
-            pass
-        else:
-            print('Update fail, check internet connection or config link.')
-            raise ConnectionError(f"Connection error or invalid link.")
-            # return
-    else:
-        # read from YAML file
-        with open(input_file, 'r') as file:
-            data = yaml.safe_load(file)
-            file.close()
+def edit_config(url, output_file):
+    # if do_update:
+    #     data = get_config()
+    #     if data:
+    #         pass
+    #     else:
+    #         print('Update fail, check internet connection or config link.')
+    #         raise ConnectionError(f"Connection error or invalid link.")
+    #         # return
+    # else:
+    #     # read from YAML file
+    #     with open(input_file, 'r') as file:
+    #         data = yaml.safe_load(file)
+    #         file.close()
+    data = get_config(url)
 
     # default proxy group
     default_proxy_group = {
@@ -97,14 +98,19 @@ def edit_config(input_file, output_file, do_update=True):
 def main():
     parser = argparse.ArgumentParser(description="Set clash config filr.")
 
-    parser.add_argument('--input', help="Directory to input file.", default='config.yaml')
+    # parser.add_argument('--input', help="Directory to input file.", default='config.yaml')
+    parser.add_argument('--url', help="Url to get shit from")
     parser.add_argument('--output', help="Directory to output file.", default="output.yaml")
-    parser.add_argument('--update', help='Update from env.CLASH_URL', action='store_true')
+    # parser.add_argument('--update', help='Update from env.CLASH_URL', action='store_true')
     # parser.add_argument('--verbose', help="增加输出的详细程度", action='store_true')
 
     args = parser.parse_args()
 
-    edit_config(args.input, args.output, args.update)
+    # input_file = args.input
+    # output_file = args.output
+    # do_update = args.update
+
+    edit_config(args.url, args.output)
 
 
 if __name__ == '__main__':
