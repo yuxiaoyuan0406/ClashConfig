@@ -14,15 +14,21 @@ pip install requirements.txt
 
 ## Usage
 
-To simply group some shit:
+To get clash config from your clash url:
 
 ```bash
-python3 main.py --input config.yaml
+python main.py --url https://some.url --output output.yaml
 ```
 
-To update from link(env.CLASH_URL):
+To run a flask server and edit your clash config:
 
 ```bash
-# export CLASH_URL="http://your.clash.config/url"
-python3 main.py --output config.yaml --update
+python server.py
+# get your config from: http://localhost:6789/?url=https://some.url
+```
+
+For safty shit, use Gunicorn
+
+```bash
+gunicorn -w 4 -b 0.0.0.0:6789 server:app
 ```
