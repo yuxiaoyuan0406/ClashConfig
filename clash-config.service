@@ -1,0 +1,12 @@
+[Unit]
+Description=Clash config daemon, listening 6789.
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Restart=always
+ExecStart=/etc/clash-config/start.sh
+
+[Install]
+WantedBy=multi-user.target
