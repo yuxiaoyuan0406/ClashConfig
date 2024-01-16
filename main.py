@@ -104,10 +104,6 @@ def main():
 
     args = parser.parse_args()
 
-    input_file = args.input
-    output_file = args.output
-    do_update = args.update
-
     edit_config(args.input, args.output, args.update)
 
 
