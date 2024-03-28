@@ -29,14 +29,15 @@ def download_config(url: str) -> dict:
     import os
     import requests
     proxy = {
-        "http": None,
-        "https": None,
+        # "http": "",
+        # "https": "",
     }
     assert str is not None
 
     # download file without proxy
     session = requests.Session()
-    session.trust_env = False
+    # session.trust_env = False
+    session.proxies.update(proxy)
 
     response = None
     try:
