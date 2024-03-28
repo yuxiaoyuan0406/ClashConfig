@@ -1,5 +1,8 @@
 import yaml
 import argparse
+import os
+
+from util import util
 
 def get_config():
     import os
@@ -104,7 +107,27 @@ def main():
 
     args = parser.parse_args()
 
-    edit_config(args.input, args.output, args.update)
+    if args.update:
+        url = os.environ.get('CLASH_URL')
+        if url is None:
+            print("Env para `CLASH_URL` not set")
+            return
+        data = util.download_config(url)
+        ### check if data is empty
+        if data:
+            pass
+        else:
+            raise ConnectionError(f"Connection error or invalid link.")
+    else:
+        # read from YAML file
+        with open(args.input, 'r') as file:
+            data = yaml.safe_load(file)
+            file.close()
+
+    util.edit_config(data)
+    with open(args.output, 'w') as file:
+        yaml.dump(data, file)
+        file.close()
 
 
 if __name__ == '__main__':
