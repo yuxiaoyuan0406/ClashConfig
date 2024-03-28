@@ -57,6 +57,7 @@ def download_config(url: str) -> dict:
     return dict({})
 
 def edit_config(data: dict)->None:
+    assert data
     group_proxy_by_name(data)
 
     ## change allow lan
