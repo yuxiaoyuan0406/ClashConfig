@@ -37,6 +37,8 @@ def download_config(url: str) -> dict:
     # download file without proxy
     session = requests.Session()
     session.trust_env = False
+
+    response = None
     try:
         response = session.get(url, timeout=30)
     except requests.exceptions.Timeout:
@@ -46,7 +48,7 @@ def download_config(url: str) -> dict:
         ## other exceptions
         print(f'Request exception: {e}')
     
-    if response.status_code == 200:
+    if response and response.status_code == 200:
         try:
             config = yaml.safe_load(response.content)
         except yaml.YAMLError as e:
