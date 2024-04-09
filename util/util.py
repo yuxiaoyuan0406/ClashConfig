@@ -63,10 +63,17 @@ def edit_config(data: dict)->None:
     assert data
     group_proxy_by_name(data)
 
+    add_rule(data)
+
     ## change allow lan
     data['allow-lan'] = True
     ## chane log level
     data['log-level'] = 'debug'
+
+def add_rule(data: dict)->None:
+    assert 'rules' in data
+    rule = 'DOMAIN,s.trojanflare.com,DIRECT'
+    data['rules'].insert(0, rule)
    
 def group_proxy_by_name(data: dict)->None:
     ### get all names
