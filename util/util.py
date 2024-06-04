@@ -114,6 +114,8 @@ def group_proxy_by_name(data: dict)->None:
         ## insert new group into proxy-groups list
         data['proxy-groups'].append(group)
     
+    ## insert semi-auto group to default proxy group
+    data['proxy-groups'][0]['proxies'].insert(0, semi_auto_switch_group['name'])
     ## insert semi-auto group
     data['proxy-groups'].insert(0, semi_auto_switch_group)
     
