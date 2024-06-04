@@ -1,5 +1,3 @@
-import yaml
-
 '''
 A clash config yaml file contain a dict type data.
 
@@ -10,6 +8,7 @@ Each item in that list has a key "name".
 The data contains a list of which key is "proxy-groups".
 Here you can group some proxies up for better use.
 '''
+import yaml
 
 # default proxy group
 default_proxy_switch_group = {
@@ -25,8 +24,9 @@ default_proxy_select_group = {
     "proxies": []
 }
 
+
 def download_config(url: str) -> dict:
-    import os
+    # import os
     import requests
     proxy = {
         # "http": "",
@@ -48,7 +48,7 @@ def download_config(url: str) -> dict:
     except requests.exceptions.RequestException as e:
         ## other exceptions
         print(f'Request exception: {e}')
-    
+
     if response and response.status_code == 200:
         try:
             config = yaml.safe_load(response.content)
@@ -59,7 +59,8 @@ def download_config(url: str) -> dict:
             return config
     return dict({})
 
-def edit_config(data: dict)->None:
+
+def edit_config(data: dict) -> None:
     assert data
     group_proxy_by_name(data)
 
@@ -70,12 +71,14 @@ def edit_config(data: dict)->None:
     ## chane log level
     data['log-level'] = 'debug'
 
-def add_rule(data: dict)->None:
+
+def add_rule(data: dict) -> None:
     assert 'rules' in data
     rule = 'DOMAIN,s.trojanflare.com,DIRECT'
     data['rules'].insert(0, rule)
-   
-def group_proxy_by_name(data: dict)->None:
+
+
+def group_proxy_by_name(data: dict) -> None:
     ### get all names
     proxy_names = [proxy['name'] for proxy in data['proxies']]
     ### split names with '-' to get countries
@@ -89,13 +92,13 @@ def group_proxy_by_name(data: dict)->None:
     ### all auto switch group will be insert into this group
     semi_auto_switch_group = dict(default_proxy_select_group)
     semi_auto_switch_group['name'] = 'Semi-Auto'
-    
+
     ### all new group has to be inserted
     assert 'proxy-groups' in data
     assert type(data['proxy-groups']) is list
     # if type(data['proxy-groups']) is dict:
     #     data['proxy-groups'] = [ data['proxy-groups'] ]
-    proxy_groups_names = [group['name'] for group in data['proxy-groups']]
+    # proxy_groups_names = [group['name'] for group in data['proxy-groups']]
 
     for country in proxy_country_set:
         ## determin name
@@ -107,15 +110,15 @@ def group_proxy_by_name(data: dict)->None:
         ## edit new group
         group['name'] = group_name
         group['proxies'] = proxies
-        
+
         ## insert new group into semi-auto group
         semi_auto_switch_group['proxies'].append(group_name)
 
         ## insert new group into proxy-groups list
         data['proxy-groups'].append(group)
-    
+
     ## insert semi-auto group to default proxy group
-    data['proxy-groups'][0]['proxies'].insert(0, semi_auto_switch_group['name'])
+    data['proxy-groups'][0]['proxies'].insert(0,
+                                              semi_auto_switch_group['name'])
     ## insert semi-auto group
     data['proxy-groups'].insert(0, semi_auto_switch_group)
-    
