@@ -1,7 +1,7 @@
 import yaml
 import argparse
 
-from util import util
+import util
 
 def main():
     parser = argparse.ArgumentParser(description="Set clash config filr.")
