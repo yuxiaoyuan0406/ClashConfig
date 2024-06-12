@@ -2,7 +2,7 @@ import yaml
 import argparse
 import os
 
-from util import util
+import util
 
 def get_config():
     import os
