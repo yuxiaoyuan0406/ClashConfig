@@ -1,32 +1,36 @@
-import yaml
 import argparse
+import sys
+
+import yaml
 
 import util
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Set clash config filr.")
-
-    # parser.add_argument('--input', help="Directory to input file.", default='config.yaml')
-    parser.add_argument('--url', help="Url to get shit from")
-    parser.add_argument('--output', help="Directory to output file.", default="output.yaml")
-    # parser.add_argument('--update', help='Update from env.CLASH_URL', action='store_true')
-    # parser.add_argument('--verbose', help="增加输出的详细程度", action='store_true')
-
+    parser = argparse.ArgumentParser(description="Download and edit Clash/Mihomo config.")
+    parser.add_argument("--url", required=True, help="Subscription URL.")
+    parser.add_argument("--output", help="Output YAML file.", default="output.yaml")
+    parser.add_argument(
+        "--user-agent",
+        default=None,
+        help=(
+            "User-Agent used when pulling subscription. "
+            "Default is a conservative ClashforWindows UA; override it if your provider requires another client UA."
+        ),
+    )
     args = parser.parse_args()
 
-    # input_file = args.input
-    # output_file = args.output
-    # do_update = args.update
+    try:
+        data = util.download_config(args.url, user_agent=args.user_agent)
+        util.edit_config(data)
+    except Exception as exc:
+        print(f"Failed to generate config: {exc}", file=sys.stderr)
+        return 1
 
-    # edit_config(args.url, args.output)
-    data = util.download_config(args.url)
-    util.edit_config(data)
-
-    with open(args.output, 'w') as file:
-        yaml.dump(data, file)
-        file.close()
-
+    with open(args.output, "w", encoding="utf-8") as file:
+        yaml.safe_dump(data, file, allow_unicode=True, sort_keys=False)
+    return 0
 
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    raise SystemExit(main())
