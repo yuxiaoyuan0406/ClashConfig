@@ -1,4 +1,4 @@
-import yaml
+from __future__ import annotations
 
 '''
 Utilities for downloading and post-processing Clash/Mihomo subscription configs.
@@ -14,7 +14,6 @@ Trojan. This module therefore:
 4. filters unsupported proxy types before editing groups.
 '''
 
-from __future__ import annotations
 
 import base64
 import os
